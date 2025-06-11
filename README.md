@@ -1,77 +1,140 @@
+
 # 🌸 Perfume Filter Engine
 
-This project implements a **filter-based perfume selection tool** that allows users to search for perfumes matching specific criteria such as gender, season, sillage strength, and main accords. It is a simple yet powerful Python script designed for quick lookups from a perfume dataset.
+A simple yet powerful Python-based filtering tool to help you find perfumes that match **specific user preferences** — including **gender**, **season**, **sillage**, and **main accords** — from a structured dataset.
 
-## 📌 Project Summary
+---
 
-Instead of using machine learning or NLP, this script uses exact keyword matching across specific columns in a perfume database to return perfumes that satisfy all user-defined criteria.
+## 📌 Overview
 
-## 📁 Dataset
+Rather than using complex machine learning models or NLP techniques, this tool relies on **exact keyword matching** to deliver precise perfume recommendations. It's ideal for quick filtering, rule-based selection, and building curated scent lists.
 
-- `perfume_data_combined.csv`  
-  The dataset should contain at least the following columns:
-  - `name`
-  - `main accords `
-  - `for_gender`
-  - `seasons`
-  - `sillage`
+---
+
+## 📂 Dataset Structure
+
+Ensure your dataset file is named:
+
+* `perfume_data_combined.csv`
+
+And contains at least the following columns:
+
+| Column Name    | Description                                 |
+| -------------- | ------------------------------------------- |
+| `name`         | Name of the perfume                         |
+| `main accords` | Key scent descriptors (e.g., woody, floral) |
+| `for_gender`   | Target gender (e.g., for women, unisex)     |
+| `seasons`      | Preferred seasons (e.g., winter, summer)    |
+| `sillage`      | Scent trail strength (e.g., strong, soft)   |
+
+---
 
 ## ⚙️ How It Works
 
 1. **Data Preparation**
-   - The script reads the perfume data and splits the `for_gender` and `seasons` fields into lists.
-   - It handles missing values to avoid errors during filtering.
 
-2. **Search Function**
-   - The `find()` function performs substring matching for each search term in a given column.
-   - A perfume passes the filter only if **all specified search terms** are found in the column.
+   * Loads CSV data using `pandas`.
+   * Converts multi-valued fields (like `for_gender` or `seasons`) into Python lists.
+   * Cleans and handles missing data gracefully.
 
-3. **Filtering**
-   - Perfumes are filtered based on four user-defined criteria:
-     - Gender (e.g., `"for women"`)
-     - Season (e.g., `"winter"`)
-     - Sillage (e.g., `"strong"`)
-     - Main Accords (e.g., `"woody"`)
+2. **Filtering Mechanism**
 
-4. **Output**
-   - The filtered results are printed directly to the console, showing the names of the perfumes that match **all** criteria.
+   * Uses a custom `find()` function to apply **substring matching** on each field.
+   * Only returns perfumes that match **all selected criteria**.
 
-## 🔍 Example Usage
+3. **User-defined Search**
+
+   * Specify your preferences in the following categories:
+
+     * Gender
+     * Seasons
+     * Sillage strength
+     * Main accords
+
+4. **Console Output**
+
+   * Matching perfume names are printed directly.
+
+---
+
+## 🚀 Quick Start
+
+### ✅ Requirements
+
+* Python 3.x
+* `pandas` library
+
+Install dependencies:
+
+```bash
+pip install pandas
+```
+
+### ▶️ Running the Script
+
+1. Clone or download this repository.
+2. Place `perfume_data_combined.csv` in the same directory as the script.
+3. Open and modify the following variables in the script as needed:
 
 ```python
 search_gender = ["for women"]
 search_seasons = ["winter"]
 search_sillage = ["strong"]
-search_main = ["woody", "", ""]  # Empty strings are ignored
+search_main = ["woody"]
+```
 
-# Filtering...
-result = list(set(main_accords_list) & set(gender_list) & set(sillage_list) & set(seasons_list))
+4. Run the script:
 
+```bash
+python perfume_filter.py
+```
+
+5. View the matching perfume names in your console.
+
+---
+
+## 🔍 Example Code Snippet
+
+```python
+search_gender = ["for women"]
+search_seasons = ["winter"]
+search_sillage = ["strong"]
+search_main = ["woody"]
+
+# Perform filtering
+result = list(
+    set(main_accords_list)
+    & set(gender_list)
+    & set(sillage_list)
+    & set(seasons_list)
+)
+
+# Display results
 for index in result:
     print(perfumedb["name"].iloc[index])
-✅ Requirements
-Python 3.x
+```
 
-pandas
+---
 
-Install dependencies:
+## 🧠 Notes
 
-bash
-Copy
-Edit
-pip install pandas
-🚀 How to Run
-Place your dataset perfume_data_combined.csv in the same directory as the script.
+* **String matching is case-sensitive** — make sure your filter values exactly match the dataset (e.g., `"for women"` not `"For Women"`).
+* Empty strings in the search lists are automatically ignored.
+* This tool works best for **rule-based filtering** and **curated selection building**.
 
-Modify the search_gender, search_seasons, search_sillage, and search_main variables to match your desired filters.
+---
 
-Run the script to view the filtered perfume names.
+## 📓 Origin
 
-🧠 Notes
-String matching is case-sensitive. Make sure your search terms exactly match the dataset values.
+This project was initially developed in **Google Colab** and later adapted for local use.
 
-This tool is ideal for building curated perfume selections or creating user-specific recommendations based on simple rules.
+---
 
-📎 Source Notebook
-Originally developed in Google Colab.
+## 💡 Future Improvements (Suggestions)
+
+* Add case-insensitive search.
+* Convert script into a CLI or web app (e.g., Streamlit or Flask).
+* Add fuzzy matching (e.g., Levenshtein distance).
+* Export filtered results to a CSV.
+
 
